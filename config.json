@@ -1,0 +1,4 @@
+{
+  "apiBaseUrl": "https://YOUR-WORKER-NAME.YOUR-ACCOUNT.workers.dev",
+  "pollIntervalMs": 30000
+}
