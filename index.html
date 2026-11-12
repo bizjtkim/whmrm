@@ -676,7 +676,7 @@ function ensureUi(){
     $('daToggle').onclick=()=>setMode(!dragMode);
     $('daToggle').classList.toggle('on',dragMode);
   }
-  const version=document.querySelector('.topHeader .appVersion');if(version)version.textContent='B2 · v.26111203';
+  const version=document.querySelector('.topHeader .appVersion');if(version)version.textContent='B2 · v.26111204';
   const planButton=$('b2ApplyPlan');if(planButton&&!planButton.dataset.daPlanBound){planButton.dataset.daPlanBound='1';planButton.addEventListener('click',e=>{const p=window.__daPendingPlan;if(!p)return;e.preventDefault();e.stopImmediatePropagation();b2PlanReport(p)},true)}
   const staffCards=$('b2StaffList');if(staffCards&&!staffCards.dataset.daDropClickBound){staffCards.dataset.daDropClickBound='1';staffCards.addEventListener('click',e=>{if(Date.now()-justDragged<500){e.preventDefault();e.stopImmediatePropagation()}else if(!window.__daStageInProgress)window.__daPendingPlan=null},true)}
   const targetSelect=$('b2Target');if(targetSelect&&!targetSelect.dataset.daPlanBound){targetSelect.dataset.daPlanBound='1';targetSelect.addEventListener('change',()=>{if(!window.__daStageInProgress){window.__daPendingPlan=null;window.__daFixedTarget=''}})}
@@ -1012,7 +1012,7 @@ const waitFns=setInterval(()=>{
     if(all.nextElementSibling!==button)all.insertAdjacentElement('afterend',button);
     syncButton();return true;
   }
-  function syncButton(){const button=document.getElementById('b2EngineerRegions');if(!button)return;if(engineerView&&planningOn())engineerView=false;button.textContent=engineerView?'엔지니어 지역 보기 해제':'홈케어 엔지니어 지역 보기';button.setAttribute('aria-pressed',String(engineerView));button.classList.toggle('primary',engineerView)}
+  function syncButton(){const button=document.getElementById('b2EngineerRegions');if(!button)return;if(engineerView&&planningOn())engineerView=false;const label=engineerView?'엔지니어 지역 보기 해제':'홈케어 엔지니어 지역 보기';if(button.textContent!==label)button.textContent=label;button.setAttribute('aria-pressed',String(engineerView));button.classList.toggle('primary',engineerView)}
   function fitRows(rows){if(!map||!geoLayer)return;const keys=new Set(rows.map(r=>r.region)),bounds=[];geoLayer.eachLayer(layer=>{const r=regionForFeature(layer.feature);if(r&&keys.has(r.region))bounds.push(layerBounds(layer))});if(!bounds.length)return;let all=bounds[0];for(const b of bounds.slice(1))all.extend(b);map.stop?.();map.fitBounds(all,{padding:[18,18],maxZoom:18,animate:false})}
   function applyModeStyles(){
     if(!geoLayer)return;
@@ -1030,9 +1030,7 @@ const waitFns=setInterval(()=>{
   if(typeof render==='function'){
     const prior=render;render=function(){prior.apply(this,arguments);ensureButton();syncButton();applyModeStyles();renderLegend();refreshSelectionLegend()};wrapped=true;
   }
-  const observer=new MutationObserver(()=>{ensureButton();syncButton()});
-  if(document.documentElement)observer.observe(document.documentElement,{childList:true,subtree:true});
-  let tries=0;const timer=setInterval(()=>{tries++;ensureButton();syncButton();if(document.getElementById('b2StaffList')||tries>150){clearInterval(timer);observer.disconnect()}},100);
+  let tries=0;const timer=setInterval(()=>{tries++;ensureButton();syncButton();if(document.getElementById('b2StaffList')||tries>150)clearInterval(timer)},100);
   window.__b2EngineerRegionMode={isVacant:b2IsVacantRegion,isEngineerOnly:b2EngineerOnlyRegion,refresh:()=>{ensureButton();syncButton();applyModeStyles();renderLegend();refreshSelectionLegend()}};
 })();
 </script>
