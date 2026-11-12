@@ -983,7 +983,7 @@ const waitFns=setInterval(()=>{
 (()=>{
  'use strict';
  const NAME_KEY='b2_shared_editor_name_v1', STATUS_ID='b2SharedStatus';
- let endpoint='',remoteSha='',ready=false,busy=false,polling=false,queued=false,dirty=false,lastRemoteStamp='',lastChangeSignature='';
+ let endpoint='',remoteSha='',ready=false,busy=false,polling=false,queued=false,dirty=false,lastRemoteStamp='',lastChangeSignature='',currentDoc=null;
  const jsonClone=x=>JSON.parse(JSON.stringify(x));
  const status=(message,kind='ok')=>{let el=document.getElementById(STATUS_ID);if(!el){el=document.createElement('div');el.id=STATUS_ID;document.body.appendChild(el)}el.dataset.kind=kind;el.textContent=message};
  const overlay=(title,body,withName=false)=>{let el=document.getElementById('b2SharedOverlay');if(!el){el=document.createElement('div');el.id='b2SharedOverlay';document.body.appendChild(el)}el.innerHTML=`<div id="b2SharedCard"><h2>${title}</h2><p>${body}</p>${withName?'<label for="b2SharedName">수정자 이름</label><input id="b2SharedName" maxlength="40" autocomplete="name" placeholder="예: 홍길동"><button id="b2SharedStart">이름 저장하고 시작</button>':''}</div>`;el.hidden=false;return el};
