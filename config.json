@@ -1,4 +1,4 @@
 {
-  "apiBaseUrl": "https://YOUR-WORKER-NAME.YOUR-ACCOUNT.workers.dev",
+  "apiBaseUrl": "https://wellshomecare-shared-data.biz-jtkim.workers.dev",
   "pollIntervalMs": 30000
 }
